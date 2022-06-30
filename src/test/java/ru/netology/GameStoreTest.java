@@ -1,9 +1,15 @@
 package ru.netology;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class GameStoreTest {
+
 
     @Test
     public void shouldAddGame() {
@@ -14,5 +20,157 @@ public class GameStoreTest {
         assertTrue(store.containsGame(game));
     }
 
-    // другие ваши тесты
+    @Test
+    public void shouldPublishMoreGameFalse() {
+        GameStore store = new GameStore();
+        List<Game> games = new ArrayList<>();
+
+        games.add(new Game("Cyberpunk 2077", "Ролевая игра", store));
+        games.add(new Game("Дикая охота", "экшн", store));
+
+        assertFalse(games.equals(store.publishGame("Нетология Баттл Онлайн", "Аркады")));
+    }
+
+    @Test
+    public void shouldPublishMoreGameTrue() {
+        GameStore store = new GameStore();
+        List<Game> games = new ArrayList<>();
+
+        games.add(new Game("Cyberpunk 2077", "Ролевая игра", store));
+        games.add(new Game("Дикая охота", "экшн", store));
+
+        assertTrue(games.equals(store.publishGame("Дикая охота", "экшн")));
+    }
+
+    @Test
+    public void shouldContainsWithoutThisGame() {
+        GameStore store = new GameStore();
+        GameStore storeForNewGame = new GameStore();
+
+        Game game = store.publishGame("Дикая охота", "экшн");
+        Game game1 = store.publishGame("Cyberpunk 2077", "Ролевая игра");
+        Game game2 = store.publishGame("Dead Space", "хоррор");
+        Game game3 = store.publishGame("Disco Elysium", "детектив");
+        Game game4 = store.publishGame("Doom Eternal", "шутер от первого лица");
+        Game game5 = storeForNewGame.publishGame("Нетология Баттл Онлайн", "Аркады");
+
+        assertEquals(false, store.containsGame(game5));
+    }
+
+    @Test
+    public void shouldContainsGame() {
+        GameStore store = new GameStore();
+
+        Game game = store.publishGame("Дикая охота", "экшн");
+        Game game1 = store.publishGame("Cyberpunk 2077", "Ролевая игра");
+        Game game2 = store.publishGame("Dead Space", "хоррор");
+        Game game3 = store.publishGame("Disco Elysium", "детектив");
+        Game game4 = store.publishGame("Doom Eternal", "шутер от первого лица");
+
+        assertEquals(true, store.containsGame(game1));
+    }
+
+
+    @Test
+    public void shouldGetMostPlayer() {
+        GameStore store = new GameStore();
+
+        Game game = store.publishGame("Дикая охота", "экшн");
+        Game game1 = store.publishGame("Cyberpunk 2077", "Ролевая игра");
+        Game game2 = store.publishGame("Dead Space", "хоррор");
+        Game game3 = store.publishGame("Disco Elysium", "детектив");
+        Game game4 = store.publishGame("Doom Eternal", "шутер от первого лица");
+        Game game5 = store.publishGame("Нетология Баттл Онлайн", "Аркады");
+
+        store.addPlayTime("Petr", 27);
+        store.addPlayTime("Svetlana", 7);
+        store.addPlayTime("Igor", 14);
+        store.addPlayTime("Egor", 17);
+        store.addPlayTime("Ivan", 11);
+        store.addPlayTime("Veronika", 28);
+
+        String expected = "Veronika";
+        String actual = store.getMostPlayer();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldAddPlayTime() {
+        GameStore store = new GameStore();
+
+        Game game = store.publishGame("Дикая охота", "экшн");
+        Game game1 = store.publishGame("Cyberpunk 2077", "Ролевая игра");
+        Game game2 = store.publishGame("Dead Space", "хоррор");
+        Game game3 = store.publishGame("Disco Elysium", "детектив");
+        Game game4 = store.publishGame("Doom Eternal", "шутер от первого лица");
+        Game game5 = store.publishGame("Нетология Баттл Онлайн", "Аркады");
+
+        store.addPlayTime("Petr", 27);
+        store.addPlayTime("Svetlana", 27);
+        store.addPlayTime("Igor", 27);
+        store.addPlayTime("Egor", 27);
+        store.addPlayTime("Ivan", 27);
+        store.addPlayTime("Veronika", 27);
+
+        String expected = store.getMostPlayer();
+        String actual = "Petr";
+
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    public void shouldGetMostPlayerMore() {
+        GameStore store = new GameStore();
+
+        store.addPlayTime("Petr", 27);
+        store.addPlayTime("Svetlana", 10);
+        store.addPlayTime("Igor", 14);
+        store.addPlayTime("Svetlana", 18);
+
+
+        String expected = "Svetlana";
+        String actual = store.getMostPlayer();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetMostPlayerWithoutTime() {
+        GameStore store = new GameStore();
+
+        store.addPlayTime("Petr", 0);
+        store.addPlayTime("Svetlana", 0);
+        store.addPlayTime("Igor", 0);
+
+
+        String expected = null;
+        String actual = store.getMostPlayer();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetSumPlayedTimeMoreWithoutPlayers() {
+        GameStore store = new GameStore();
+
+        int expected = 0;
+        int actual = store.getSumPlayedTime();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldGetSumPlayedTimeMore1() {
+        GameStore store = new GameStore();
+
+        store.addPlayTime("Petr", 27);
+        store.addPlayTime("Svetlana", 3);
+        store.addPlayTime("Igor", 10);
+
+        int expected = 40;
+        int actual = store.getSumPlayedTime();
+
+        assertEquals(expected, actual);
+    }
 }
