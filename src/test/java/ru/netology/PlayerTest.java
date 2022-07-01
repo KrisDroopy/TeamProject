@@ -107,8 +107,8 @@ public class PlayerTest {
         player.play(game2, 5);
         player.play(game3, 6);
 
-        Game expected = game3;
-        Game actual = player.mostPlayerByGenre("Аркады");
+        String expected = "Hotline Miami 2";
+        String actual = player.mostPlayerByGenre("Аркады");
 
         assertEquals(expected, actual);
 
