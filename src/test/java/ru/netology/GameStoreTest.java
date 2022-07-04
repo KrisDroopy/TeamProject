@@ -121,6 +121,7 @@ public class GameStoreTest {
         assertEquals(expected, actual);
 
     }
+
     @Test
     public void shouldGetSumPlayedTimeMore1() {
         GameStore store = new GameStore();
