@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class GameStoreTest {
 
@@ -21,17 +18,6 @@ public class GameStoreTest {
     }
 
     @Test
-    public void shouldContainsWithoutThisGame() {
-        GameStore store = new GameStore();
-        GameStore storeForNewGame = new GameStore();
-
-        Game game = store.publishGame("Дикая охота", "экшн");
-        Game game1 = storeForNewGame.publishGame("Нетология Баттл Онлайн", "Аркады");
-
-        assertFalse(store.containsGame(game1));
-    }
-
-    @Test
     public void shouldContainsGame() {
         GameStore store = new GameStore();
 
@@ -42,6 +28,18 @@ public class GameStoreTest {
         Game game4 = store.publishGame("Doom Eternal", "шутер от первого лица");
 
         assertEquals(true, store.containsGame(game1));
+    }
+
+
+    @Test
+    public void shouldContainsWithoutThisGame() {
+        GameStore store = new GameStore();
+        GameStore storeForNewGame = new GameStore();
+
+        Game game = store.publishGame("Дикая охота", "экшн");
+        Game game1 = storeForNewGame.publishGame("Нетология Баттл Онлайн", "Аркады");
+
+        assertFalse(store.containsGame(game1));
     }
 
 
@@ -96,7 +94,7 @@ public class GameStoreTest {
         String expected = null;
         String actual = store.getMostPlayer();
 
-        assertEquals(expected, actual);
+        assertEquals(null, actual);
     }
 
     @Test
@@ -110,7 +108,7 @@ public class GameStoreTest {
     }
 
     @Test
-    public void shouldGetSumPlayedTimeMore() {
+    public void shouldGetSumPlayedTimeMore2() {
         GameStore store = new GameStore();
 
         store.addPlayTime("Petr", 27);
@@ -121,8 +119,8 @@ public class GameStoreTest {
         int actual = store.getSumPlayedTime();
 
         assertEquals(expected, actual);
-    }
 
+    }
     @Test
     public void shouldGetSumPlayedTimeMore1() {
         GameStore store = new GameStore();
